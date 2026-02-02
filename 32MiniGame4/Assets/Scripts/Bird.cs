@@ -19,14 +19,19 @@ public class Bird : MonoBehaviour
     public event BirdFlap OnBirdFlap;
     public event BirdCollision OnBirdCollision;
     public event ScoreEarned OnScoreEarned;
+    private bool isAlive = true;
 
-     private void OnTriggerEnter2D(Collider2D collision)
+     private void OnCollisionEnter2D(Collision2D collision)
      {
-         if (collision.tag == "Obstacle")
+         if (collision.gameObject.tag == "Obstacle")
          {
-             OnBirdCollision?.Invoke();
+            OnBirdCollision?.Invoke();
+            Die();
          }
-        else if (collision.tag == "Score")
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+     {
+         if (collision.tag == "Score")
         {
             OnScoreEarned?.Invoke();
         }
@@ -39,7 +44,7 @@ public class Bird : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isAlive)
         {
             Flap();
             OnBirdFlap?.Invoke();
@@ -54,5 +59,10 @@ public class Bird : MonoBehaviour
     public float getResetX()
     {
         return spawnXPosition;
+    }
+
+    private void Die()
+    {
+        isAlive = false;
     }
 }

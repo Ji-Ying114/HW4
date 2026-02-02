@@ -6,6 +6,7 @@ public class Audio : MonoBehaviour
 {   
     [SerializeField] private AudioSource flapAudioSource;
     [SerializeField] private AudioSource collisionAudioSource;
+    [SerializeField] private AudioSource scoreAudioSource;
 
     //subscribes to bird flap and collision events
     private void OnEnable()
@@ -13,6 +14,7 @@ public class Audio : MonoBehaviour
         Bird bird = Locator.instance.bird;
         bird.OnBirdFlap += HandleBirdFlap;
         bird.OnBirdCollision += HandleBirdCollision;
+        bird.OnScoreEarned += HandleBirdScore;
     }
 
     private void HandleBirdFlap()
@@ -26,5 +28,10 @@ public class Audio : MonoBehaviour
     {
         // Play collision sound
         collisionAudioSource.Play();
+    }
+    private void HandleBirdScore()
+    {
+        // Play score sound
+        scoreAudioSource.Play();
     }
 }
